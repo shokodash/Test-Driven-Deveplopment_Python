@@ -25,6 +25,11 @@ class SmokeTest(TestCase):
 		request.POST['item_text'] = 'A new list item'					# print(type(request.POST)) -> <class 'django.http.request.QueryDict'>
 
 		response = home_page(request)									# <class 'django.http.response.HttpResponse'>
+
+		self.assertEqual(Item.objects.count(), 1)
+		new_item = Item.objects.first()
+		self.assertEqual(new_item.text, 'A new list item')
+
 		expected_html = render_to_string('home.html', {'new_item_text': 'A new list item'})
 		responded_html = response.content.decode()
 
@@ -49,3 +54,9 @@ class ItemModelTest(TestCase):
 		second_saved_item = saved_items[1]
 		self.assertEqual(first_saved_item.text, 'The first (ever) list item')
 		self.assertEqual(second_saved_item.text, 'Item the second')
+
+class HomePageTest(TestCase):
+	def test_home_page_only_saves_items_when_necessary(self):
+		request = HttpRequest()
+		home_page(request)
+		self.assertEqual(Item.objects.count(), 0)
