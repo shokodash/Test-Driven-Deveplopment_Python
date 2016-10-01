@@ -39,7 +39,7 @@ class NewVistorTest(unittest.TestCase):
 		inputbox.send_keys(Keys.ENTER)
 	# When she hits enter, the page updates, and now the page lists
 	# "1: Buy peacock feathers" as an item in a to-do list
-		self.check_for_row_in_list_table('Buy peacock feathers')
+		self.check_for_row_in_list_table('1: Buy peacock feathers')
 
 	# There is still a text box inviting her to add another item. She
 	# enters "Use peacock feathers to make a fly" (Edith is very methodical)

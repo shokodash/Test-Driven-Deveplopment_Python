@@ -5,7 +5,6 @@ from django.template.loader import render_to_string
 from lists.views import home_page
 from lists.models import Item
 
-# Create your tests here.
 class SmokeTest(TestCase):
 
 	def test_root_resolves_to_home_page_view(self):
@@ -30,10 +29,18 @@ class SmokeTest(TestCase):
 		new_item = Item.objects.first()
 		self.assertEqual(new_item.text, 'A new list item')
 
+
+	def test_home_page_redirects_after_POST(self):
+		request = HttpRequest()											# request.method = None
+		request.method = 'POST'
+		request.POST['item_text'] = 'A new list item'					# print(type(request.POST)) -> <class 'django.http.request.QueryDict'>
+
+		response = home_page(request)									# <class 'django.http.response.HttpResponse'>
+		
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(response['location'], '/')
 
-		
+
 class ItemModelTest(TestCase):
 
 	def test_saving_and_retrieving_items(self):
@@ -58,3 +65,14 @@ class HomePageTest(TestCase):
 		request = HttpRequest()
 		home_page(request)
 		self.assertEqual(Item.objects.count(), 0)
+
+	def test_test_home_page_displays_all_list_items(self):
+		Item.objects.create(text='itemey 1')
+		Item.objects.create(text='itemey 2')
+
+		request = HttpRequest()
+		response = home_page(request)
+
+		response_html = response.content.decode()
+		self.assertIn('itemey 1', response_html)
+		self.assertIn('itemey 2', response_html)
