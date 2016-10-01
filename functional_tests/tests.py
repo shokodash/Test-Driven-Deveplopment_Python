@@ -1,15 +1,18 @@
 
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 import time
 
-class NewVistorTest(unittest.TestCase):
+
+class NewVistorTest(LiveServerTestCase):
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(3)
 
 	def tearDown(self):
+		time.sleep(4)
 		self.browser.quit()
 	
 	def check_for_row_in_list_table(self, row_text):
@@ -21,7 +24,7 @@ class NewVistorTest(unittest.TestCase):
 
 		# Edith has heard about a cool new online to-do app. She goes
 		# to check out its homepage
-		self.browser.get('http://localhost:8000')
+		self.browser.get(self.live_server_url)
 
 		# She notices the page title and header mention to-do lists
 		self.assertIn('To-Do', self.browser.title)
@@ -59,6 +62,3 @@ class NewVistorTest(unittest.TestCase):
 
 		# Satisfied, she goes back to sleep
 		self.fail('Finish the test!')
-
-if __name__ == '__main__':
-	unittest.main(exit=False, warnings='ignore')
