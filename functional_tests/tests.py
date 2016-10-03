@@ -12,6 +12,7 @@ class NewVistorTest(LiveServerTestCase):
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
+        # time.sleep(5)
         self.browser.quit()
     
     def check_for_row_in_list_table(self, row_text):
@@ -27,8 +28,8 @@ class NewVistorTest(LiveServerTestCase):
 
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('To-Do', header_text)
+        h1_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', h1_text)
 
 
     # She is invited to enter a to-do item straight away
@@ -44,7 +45,7 @@ class NewVistorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1: Buy peackock feathers')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
 
     # There is still a text box inviting her to add another item. She
     # enters "Use peacock feathers to make a fly" (Edith is very methodical)
@@ -56,6 +57,7 @@ class NewVistorTest(LiveServerTestCase):
         self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
+    ###################################################################
     # Now a newuser, Francis comes along
         ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc

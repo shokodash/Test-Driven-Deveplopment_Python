@@ -1,6 +1,6 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from django.http import HttpRequest
+from django.http import HttpRequest,HttpResponse
 from django.template.loader import render_to_string
 from lists.views import home_page
 from lists.models import Item
@@ -38,7 +38,7 @@ class SmokeTest(TestCase):
 		response = home_page(request)									# <class 'django.http.response.HttpResponse'>
 		
 		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/')
+		self.assertEqual(response['location'], '/lists/the_only_list_in_the_world/')
 
 
 class ItemModelTest(TestCase):
@@ -63,7 +63,7 @@ class ItemModelTest(TestCase):
 class HomePageTest(TestCase):
 	def test_home_page_only_saves_items_when_necessary(self):
 		request = HttpRequest()
-		home_page(request)
+		response = home_page(request)
 		self.assertEqual(Item.objects.count(), 0)
 
 	def test_test_home_page_displays_all_list_items(self):
@@ -72,7 +72,17 @@ class HomePageTest(TestCase):
 
 		request = HttpRequest()
 		response = home_page(request)
-
+		
 		response_html = response.content.decode()
 		self.assertIn('itemey 1', response_html)
 		self.assertIn('itemey 2', response_html)
+
+class ListViewTest(TestCase):
+
+	def test_displays_all_items(self):
+		Item.objects.create(text='itemey 1')
+		Item.objects.create(text='itemey 2')
+
+		response = self.client.get('/lists/the_only_list_in_the_world/')
+		self.assertContains(response, 'itemey 1')
+		self.assertContains(response, 'itemey 2')
