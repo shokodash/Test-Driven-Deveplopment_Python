@@ -8,11 +8,10 @@ def home_page(request):
 		Item.objects.create(text=request.POST['item_text'])
 		response = redirect('/lists/the_only_list_in_the_world/')
 	else:
-		items = Item.objects.all()
-		response = render(request, 'home.html', {'items': items})
+		response = render(request, 'home.html')
 	return response
 
 def view_list(request):
 	items = Item.objects.all()
-	response = render(request, 'home.html', {'items': items})
+	response = render(request, 'list.html', {'items': items})
 	return response

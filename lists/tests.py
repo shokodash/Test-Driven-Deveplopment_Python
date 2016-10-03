@@ -66,18 +66,13 @@ class HomePageTest(TestCase):
 		response = home_page(request)
 		self.assertEqual(Item.objects.count(), 0)
 
-	def test_test_home_page_displays_all_list_items(self):
-		Item.objects.create(text='itemey 1')
-		Item.objects.create(text='itemey 2')
 
-		request = HttpRequest()
-		response = home_page(request)
-		
-		response_html = response.content.decode()
-		self.assertIn('itemey 1', response_html)
-		self.assertIn('itemey 2', response_html)
 
 class ListViewTest(TestCase):
+
+	def test_uses_list_template(self):
+		response = self.client.get('/lists/the_only_list_in_the_world/')
+		self.assertTemplateUsed(response,'list.html')
 
 	def test_displays_all_items(self):
 		Item.objects.create(text='itemey 1')
