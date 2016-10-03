@@ -18,27 +18,6 @@ class SmokeTest(TestCase):
 		responded_html = response.content.decode()						# <class 'str'>
 		self.assertEqual(responded_html, expected_html)
 
-	def test_home_page_can_save_a_POST_request(self):
-		request = HttpRequest()											# request.method = None
-		request.method = 'POST'
-		request.POST['item_text'] = 'A new list item'					# print(type(request.POST)) -> <class 'django.http.request.QueryDict'>
-
-		response = home_page(request)									# <class 'django.http.response.HttpResponse'>
-
-		self.assertEqual(Item.objects.count(), 1)
-		new_item = Item.objects.first()
-		self.assertEqual(new_item.text, 'A new list item')
-
-
-	def test_home_page_redirects_after_POST(self):
-		request = HttpRequest()											# request.method = None
-		request.method = 'POST'
-		request.POST['item_text'] = 'A new list item'					# print(type(request.POST)) -> <class 'django.http.request.QueryDict'>
-
-		response = home_page(request)									# <class 'django.http.response.HttpResponse'>
-		
-		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/lists/the_only_list_in_the_world/')
 
 
 class ItemModelTest(TestCase):
@@ -81,3 +60,17 @@ class ListViewTest(TestCase):
 		response = self.client.get('/lists/the_only_list_in_the_world/')
 		self.assertContains(response, 'itemey 1')
 		self.assertContains(response, 'itemey 2')
+
+class NewListTest(TestCase):
+
+	def test_redirects_after_POST(self):
+		response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
+
+		self.assertRedirects(response, 'lists/the_only_list_in_the_world/')		
+
+	def test_saving_a_POST_request(self):
+		self.client.post('/lists/new', data={'item_text': 'A new list item'})
+		
+		self.assertEqual(Item.objects.count(), 1)
+		new_item = Item.objects.first()
+		self.assertEqual(new_item.text, 'A new list item')
