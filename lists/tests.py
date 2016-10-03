@@ -5,6 +5,11 @@ from django.template.loader import render_to_string
 from lists.views import home_page
 from lists.models import Item
 
+def logg(message):
+    print('     -- logg:')
+    print(message)
+    print('--------------------------------------')
+
 class SmokeTest(TestCase):
 
 	def test_root_resolves_to_home_page_view(self):
@@ -38,12 +43,6 @@ class ItemModelTest(TestCase):
 		second_saved_item = saved_items[1]
 		self.assertEqual(first_saved_item.text, 'The first (ever) list item')
 		self.assertEqual(second_saved_item.text, 'Item the second')
-
-class HomePageTest(TestCase):
-	def test_home_page_only_saves_items_when_necessary(self):
-		request = HttpRequest()
-		response = home_page(request)
-		self.assertEqual(Item.objects.count(), 0)
 
 
 

@@ -5,6 +5,10 @@ from selenium.webdriver.common.keys import Keys
 import unittest
 import time
 
+def logg(message, name=''):
+    print('     -- logg:')
+    print(name+': '+message)
+    print('--------------------------------------')
 
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
@@ -25,7 +29,7 @@ class NewVisitorTest(LiveServerTestCase):
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
         self.browser.get(self.live_server_url)
-
+        logg(self.live_server_url)
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
         h1_text = self.browser.find_element_by_tag_name('h1').text
@@ -39,11 +43,12 @@ class NewVisitorTest(LiveServerTestCase):
     # She types "Buy peacock feathers" into a text box (Edith's hobby
     # is tying fly-fishing lures)
         inputbox.send_keys('Buy peacock feathers')
+        inputbox.send_keys(Keys.ENTER)
 
     # When she hits enter, she is taken to a new URL,
     # and now the page lists "1: Buy peacock feathers" as an item in a to-do list table
-        inputbox.send_keys(Keys.ENTER)
         edith_list_url = self.browser.current_url
+        logg(edith_list_url)
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: Buy peacock feathers')
 

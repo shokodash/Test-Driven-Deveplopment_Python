@@ -4,11 +4,7 @@ from lists.models import Item
 
 # Create your views here.
 def home_page(request):
-	if request.method == 'POST':
-		Item.objects.create(text=request.POST['item_text'])
-		response = redirect('/lists/the_only_list_in_the_world/')
-	else:
-		response = render(request, 'home.html')
+	response = render(request, 'home.html')
 	return response
 
 def view_list(request):
