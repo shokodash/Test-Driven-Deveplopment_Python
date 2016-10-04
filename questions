@@ -1,1 +1,5 @@
 when in inputbox one writes a string and then enter, I guess a post request is sent. Who does it? can I control the behaviour of inputbox
+
+At the stuck commit, doesn't ^ show the beginning of a line. 
+How does it pattern /lists/%d/add_item'%(correct_list.id. 
+The online tool confirms that. https://regex101.com/
