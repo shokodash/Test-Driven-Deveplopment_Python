@@ -5,10 +5,10 @@ from selenium.webdriver.common.keys import Keys
 import unittest
 import time
 
-def logg(message, name=''):
-    print('     -- logg:')
-    print(name+': '+message)
-    print('--------------------------------------')
+def logg(var, name=''):
+    print(' ->-> '+ name +' <value -> type>:')
+    print(' ->-> '+ str(var) + ' -> ' + str(type(var)))
+    print(' ->->------------------------------------')
 
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
