@@ -41,6 +41,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     # She types "Buy peacock feathers" into a text box (Edith's hobby
     # is tying fly-fishing lures)
+        self.assertIn(r'localhost:80', self.browser.current_url)
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)              ## a lot of things happen here, which involve home.html, url.py, views.py, and another request as a result of redirect
 
@@ -53,6 +54,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     # There is still a text box inviting her to add another item. She
     # enters "Use peacock feathers to make a fly" (Edith is very methodical)
+        self.assertIn('lists/1/', self.browser.current_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
@@ -80,6 +82,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
     # Francis gets his own unique url
+        self.assertIn('lists/2', self.browser.current_url)
         francis_list_url = self.browser.current_url
         logg(francis_list_url, 'francis_list_url')
         self.assertNotEqual(francis_list_url, edith_list_url)
@@ -96,3 +99,12 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Satisfied they both go back to sleep
         self.fail('Finish the test!')
+
+    def test_layout_and_style(self):
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024,768)
+
+    # She notices the input box is nively centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x']
+                + inputbox.size['width'] / 2, 512, delta=5)
