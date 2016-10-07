@@ -3,3 +3,5 @@ when in inputbox one writes a string and then enter, I guess a post request is s
 At the stuck commit, doesn't ^ show the beginning of a line. 
 How does it pattern /lists/%d/add_item'%(correct_list.id. 
 The online tool confirms that. https://regex101.com/
+
+Cannot understand class functions: cls.live_server_url vs self.live_server_url

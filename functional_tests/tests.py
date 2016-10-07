@@ -1,16 +1,39 @@
 
+import sys
+import unittest
+import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
-import time
+import logging
+from logging import info as loginfo
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s %(message)s',
+                    datefmt='%I:%M:%S -> ')
 
-def logg(var, name=''):
-    print(' ->-> '+ name +' <value -> type>:')
-    print(' ->-> '+ str(var) + ' -> ' + str(type(var)))
-    print(' ->->------------------------------------')
 
 class NewVisitorTest(StaticLiveServerTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://'+arg.split('=')[1]
+                loginfo(cls.server_url)
+                return
+        super().setUpClass()
+        cls.server_url = cls.live_server_url
+        loginfo(cls.server_url)
+        loginfo(dir(cls.server_url))
+        loginfo(cls.server_url.fdel)
+        loginfo(cls.server_url.fget)
+        loginfo(cls.server_url.fset)
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.server_url:
+            super().tearDownClass()
+
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -28,7 +51,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
-        self.browser.get(self.live_server_url)              ## self.live_server_url -> http://localhost:8081
+        self.browser.get(self.server_url)
+        loginfo(self.server_url)
+        ## self.live_server_url -> http://localhost:8081
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
         h1_text = self.browser.find_element_by_tag_name('h1').text
@@ -48,7 +73,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # When she hits enter, she is taken to a new URL,
         # and now the page lists "1: Buy peacock feathers" as an item in a to-do list table
         edith_list_url = self.browser.current_url
-        logg(edith_list_url, 'edith_list_url')
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: Buy peacock feathers')
 
@@ -70,7 +94,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser = webdriver.Firefox()
 
         # Francis visits the home page.  There is no sign of Edith's list
-        self.browser.get(self.live_server_url)                          ## self.live_server_url -> http://localhost:8081
+        self.browser.get(self.server_url)                          ## self.live_server_url -> http://localhost:8081
         body_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', body_text)
         self.assertNotIn('make a fly', body_text)
@@ -84,7 +108,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # Francis gets his own unique url
         self.assertIn('lists/2', self.browser.current_url)
         francis_list_url = self.browser.current_url
-        logg(francis_list_url, 'francis_list_url')
         self.assertNotEqual(francis_list_url, edith_list_url)
         self.assertRegex(francis_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: Buy milk')
@@ -97,7 +120,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # Satisfied they both go back to sleep
 
     def test_layout_and_style(self):
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         self.browser.set_window_size(1024,768)
 
         # She notices the input box is nively centered
