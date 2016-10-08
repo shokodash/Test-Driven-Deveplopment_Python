@@ -5,3 +5,7 @@ How does it pattern /lists/%d/add_item'%(correct_list.id.
 The online tool confirms that. https://regex101.com/
 
 Cannot understand class functions: cls.live_server_url vs self.live_server_url
+
+explain systemd and init services
+
+nonroot user? a user that is not root or a user that cannot sudo?
