@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '46^17fywp-ztcxh+686ium^cxy0h^q)ma_51$$=^%gs*hg0cf0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Needed if DEBUG = False
+ALLOWED_HOSTS = ['antioch.ml']
 
 
 # Application definition
