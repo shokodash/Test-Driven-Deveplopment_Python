@@ -3,7 +3,11 @@
 
 {% block header_text %}Your To-Do list{% endblock %}
 
-{% block form_action %}/todo/lists/{{ list.id }}/add_item{% endblock %} 
+{% block form_action %}/todo/lists/{{ list.id }}/add_item{% endblock %}
+
+{% block button %}
+<button class="btn btn-primary btn-lg" type="button" onclick="location.href='/todo';">New List</button>
+{% endblock %} 
 
 {% block table %}
     <table id="id_list_table" class="table">
