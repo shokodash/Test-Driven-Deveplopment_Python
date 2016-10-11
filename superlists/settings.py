@@ -26,7 +26,7 @@ SECRET_KEY = '46^17fywp-ztcxh+686ium^cxy0h^q)ma_51$$=^%gs*hg0cf0'
 DEBUG = False
 
 # Needed if DEBUG = False
-ALLOWED_HOSTS = ['antioch.ml', 'podobinschi.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'antioch.ml', 'podobinschi.com', 'www.podobinschi.com']
 
 
 # Application definition
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'todolist',
+        'USER': 'todouser',
+        'PASSWORD': '2wAvordb8veoQ3a8ar',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
