@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render
 from lists.models import Item, List
 
+def index(request):
+    return render(request, 'index.html')
+
 def home_page(request):
     return render(request, 'home.html')
 

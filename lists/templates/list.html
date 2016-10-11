@@ -5,6 +5,10 @@
 
 {% block form_action %}/todo/lists/{{ list.id }}/add_item{% endblock %}
 
+{% block homebutton %}
+    <button class="btn btn-primary btn-lg" type="button" onclick="location.href='/';">Home</button>
+{% endblock %}
+
 {% block button %}
 <button class="btn btn-primary btn-lg" type="button" onclick="location.href='/todo';">New List</button>
 {% endblock %} 
