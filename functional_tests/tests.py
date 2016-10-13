@@ -6,10 +6,10 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import logging
-from logging import info as loginfo
+from logging import info as logi
 logging.basicConfig(level=logging.INFO, 
                     format='%(asctime)s %(message)s',
-                    datefmt='%I:%M:%S -> ')
+                    datefmt=' %I:%M:%S -> ')
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -19,15 +19,15 @@ class NewVisitorTest(StaticLiveServerTestCase):
         for arg in sys.argv:
             if 'liveserver' in arg:
                 cls.server_url = 'http://'+arg.split('=')[1]
-                loginfo(cls.server_url)
+                logi(cls.server_url)
                 return
         super().setUpClass()
         cls.server_url = cls.live_server_url
-        loginfo(cls.server_url)
-        loginfo(dir(cls.server_url))
-        loginfo(cls.server_url.fdel)
-        loginfo(cls.server_url.fget)
-        loginfo(cls.server_url.fset)
+        logi(cls.server_url)
+        logi(dir(cls.server_url))
+        logi(cls.server_url.fdel)
+        logi(cls.server_url.fget)
+        logi(cls.server_url.fset)
 
     @classmethod
     def tearDownClass(cls):
@@ -52,7 +52,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
         self.browser.get(self.server_url)
-        loginfo(self.server_url)
+        logi(self.server_url)
         ## self.live_server_url -> http://localhost:8081
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)

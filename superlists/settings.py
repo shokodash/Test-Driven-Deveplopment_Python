@@ -84,6 +84,9 @@ DATABASES = {
         'PASSWORD': '2wAvordb8veoQ3a8ar',
         'HOST': 'localhost',
         'PORT': '',
+        'TEST': {
+            'NAME': 'test_todolist'
+        }
     }
 }
 
